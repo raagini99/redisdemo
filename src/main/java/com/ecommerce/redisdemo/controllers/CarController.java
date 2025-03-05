@@ -17,8 +17,8 @@ public class CarController {
     }
 
     @PostMapping("/create")
-    @CachePut(key = "#car.company", value = "car")
-    public Car create(@RequestBody Car car) {
+    @CachePut(key = "#car.company", value = "car") //car::Hyundai
+    public @ResponseBody Car create(@RequestBody Car car) {
         return carService.createCar(car.getCompany(), car.getModel());
     }
 
