@@ -22,14 +22,15 @@ services:
       - redis-data:/data
 
   app:
+#    image: doesn't work
     build: .
 #    volumes:
-#      - ./target:/app
-#      - .:/app
-#      - ./target:/target
-#      - ./target:/app/target
-#      - .:/target
-#    working_dir: /app
+#      - ./target:/app #doesn't work
+#      - .:/app #doesn't work
+#      - ./target:/target #does work
+#      - ./target:/app/target #does work
+#      - .:/target #does work
+    working_dir: /app
     command: mvn spring-boot:run
     ports:
       - "8080:8080"
@@ -45,8 +46,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: Toon4ever!
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-
-
 
 volumes:
   mysql-data:

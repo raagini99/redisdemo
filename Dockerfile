@@ -2,7 +2,9 @@
 FROM openjdk:17-jdk-slim
 
 # Set the working directory
-WORKDIR /app
+#WORKDIR /app
+
+#Below this is not correct.
 
 #CMD ["mvn", "spring-boot:run"]
 
