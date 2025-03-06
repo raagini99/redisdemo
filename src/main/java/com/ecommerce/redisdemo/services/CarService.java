@@ -29,4 +29,8 @@ public class CarService {
         car.setModel(model);
         return carRepository.save(car);
     }
+
+    public void deleteAllCars() {
+        carRepository.deleteAll();
+    }
 }

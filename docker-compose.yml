@@ -1,4 +1,4 @@
-version: '3.8'
+#dversion: '3.8'
 services:
   mysql:
     image: mysql:8.0
@@ -8,7 +8,11 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-data:/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
 
   redis:
     image: redis:latest
@@ -19,20 +23,30 @@ services:
 
   app:
     build: .
+#    volumes:
+#      - ./target:/app
+#      - .:/app
+#      - ./target:/target
+#      - ./target:/app/target
+#      - .:/target
+#    working_dir: /app
+    command: mvn spring-boot:run
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: always
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ecommerce?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Toon4ever!
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-    volumes:
-      - .:/app
-    command: mvn spring-boot:run
+
+
 
 volumes:
   mysql-data:

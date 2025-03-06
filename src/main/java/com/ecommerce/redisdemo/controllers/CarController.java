@@ -33,4 +33,9 @@ public class CarController {
     public List<Car> getAllCars() {
         return carService.getAllCars();
     }
+
+    @DeleteMapping("")
+    public void deleteAllCars() {
+        carService.deleteAllCars();
+    }
 }
